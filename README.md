@@ -50,8 +50,8 @@ import FuzzyInput from '@phoenixreisen/fuzzy-input';
     pattern={new RegExp(/[a-Z]/)}
     warnmsg={'Ungueltige Eingabe'}
     errormsg={'Huch, ein Fehler ist aufgetreten.'}
-    query={(needle: string) => console.log('search it')}
-    load={(choice: string) => console.log('get it')}
+    query={(needle: string) => Promise.resolve(console.log('search it'))}
+    load={(choice: string) => Promise.resolve(console.log('get it'))}
 />
 
 //oder Hypescript bzw. JS
