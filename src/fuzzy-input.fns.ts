@@ -74,7 +74,7 @@ export function load(name: string, state: State, attrs: Attrs): Promise<unknown>
         });
 }
 
-export function focus(state: State, attrs: Attrs, e: KeyboardEvent, callback = search): HTMLElement|void {
+export function focus(state: State, attrs: Attrs, e: KeyboardEvent, callback = search): void {
     const {focused:current, result, value} = state;
 
     const move = {
@@ -94,7 +94,6 @@ export function focus(state: State, attrs: Attrs, e: KeyboardEvent, callback = s
         const id = `#fuzzy-item-${state.focused}`;
         const $el = document.querySelector(id) as HTMLElement;
         $el?.focus();
-        return $el;
     } else if(move && !result && (value?.length)) {
         callback?.(value, state, attrs);
     }
