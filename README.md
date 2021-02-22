@@ -56,13 +56,13 @@ import FuzzyInput from '@phoenixreisen/fuzzy-input';
 
 //oder Hypescript bzw. JS
 m(FuzzyInput, {
-    disabled: false
-    label: 'Vorlagensuche'
-    pattern: new RegExp(/[0-9]/)
-    warnmsg: 'Ungültige Eingabe'
-    errormsg: 'Es ist ein Fehler aufgetreten.'
-    load: (name: string) => setTemplate(form, name)
-    query: (input: string) => Functions.getTemplateNames(User.jwt, input)
+    disabled: false,
+    label: 'Vorlagensuche',
+    pattern: new RegExp(/[0-9]/),
+    warnmsg: 'Ungültige Eingabe',
+    errormsg: 'Es ist ein Fehler aufgetreten.',
+    load: (name: string) => Promise.resolve(console.log('search it')),
+    query: (input: string) => FuncPromise.resolve(console.log('get it')),
 });
 ```
 
