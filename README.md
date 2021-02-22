@@ -92,4 +92,4 @@ npm run compile:example
 ```
 
 Nach `git push` automatisch zu erreichen unter:
-https://phoenixreisen.github.io/fuzzy/
+https://phoenixreisen.github.io/fuzzy-input/
