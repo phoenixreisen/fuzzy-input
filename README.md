@@ -6,14 +6,14 @@ Die Komponente ist Teil des [Phoenix Reisen Design-Systems](https://design-syste
 
 ## Demo
 
-https://phoenixreisen.github.io/fuzzy-input
+https://phoenixreisen.github.io/fuzzy-input/
 
 ## Installation
 
 [Mithril](https://mithril.js.org/) wird benötigt.
 
 ```bash
-npm install --save @phoenixreisen/fuzzy-input
+npm install --save @phoenixreisen/fuzzy-input/
 ```
 
 ## Anwendung
