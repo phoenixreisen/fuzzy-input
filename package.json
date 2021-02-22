@@ -1,0 +1,50 @@
+{
+  "name": "@phoenixreisen/fuzzy-input",
+  "version": "0.0.0",
+  "description": "Ein Eingabefeld, das während des Tippens bereits Suchergebnisse anzeigt.",
+  "homepage": "https://design-system.phoenixreisen.net",
+  "main": "dist/fuzzy-input.m.js",
+  "types": "dist/fuzzy-input.m.d.ts",
+  "module": "src/fuzzy-input.m.tsx",
+  "scripts": {
+    "prepublish": "npm test",
+    "test": "ospec --preload ./test-setup.js",
+    "pretest": "del-cli ./dist && npm run copy:img && npm run compile:ts && npm run compile:scss && npm run compile:example",
+    "posttest": "del-cli ./test",
+    "compile:example": "npx rollup -c",
+    "compile:ts": "npx tsc --build tsconfig.json",
+    "compile:scss": "npx sass --no-source-map ./src:./dist",
+    "copy:img": "npx copyfiles -f ./src/favicon.png ./src/phx.logo.svg ./dist"
+  },
+  "author": "Phoenix Reisen <it@phoenixreisen.com>",
+  "contributors": [
+    "Phoenix Reisen <it@phoenixreisen.com>",
+    "Fabian Marcus <f.marcus@phoenixreisen.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phoenixreisen/fuzzy-input"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "mithril": "^2.0.4"
+  },
+  "devDependencies": {
+    "@types/mithril": "^2.0.6",
+    "del-cli": "^3.0.1",
+    "gh-pages": "^3.1.0",
+    "ignore-styles": "^5.0.1",
+    "jsdom": "^16.4.0",
+    "mithril-node-render": "^3.0.0",
+    "mithril-query": "^3.1.0",
+    "ospec": "^4.1.1",
+    "rollup": "^2.38.5",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-typescript": "^1.0.1",
+    "sinon": "^9.2.4",
+    "tslib": "^2.1.0",
+    "typescript": "^4.1.3"
+  }
+}
