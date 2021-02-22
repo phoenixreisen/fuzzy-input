@@ -42,8 +42,9 @@ export function search(input: string, state: State, attrs: Attrs): void {
                 })
                 .catch((error: any) => {
                     state.error = error;
-                    attrs.logerror &&
+                    if(attrs.logerror) {
                         console.error(error);
+                    }
                 })
                 .finally(() => {
                     state.loading = false;
@@ -56,7 +57,7 @@ export function search(input: string, state: State, attrs: Attrs): void {
     state.value = input;
 }
 
-export function load(name: string, state: State, attrs: Attrs): Promise<any> {
+export function load(name: string, state: State, attrs: Attrs): Promise<unknown> {
     return attrs.load(name)
         .then(() => {
             reset(state);
@@ -64,8 +65,9 @@ export function load(name: string, state: State, attrs: Attrs): Promise<any> {
         })
         .catch((error) => {
             state.error = error;
-            attrs.logerror &&
+            if(attrs.logerror) {
                 console.error(error);
+            }
         })
         .finally(() => {
             m.redraw();
