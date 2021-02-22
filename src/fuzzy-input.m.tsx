@@ -1,3 +1,4 @@
+/** @jsx m */
 import {focus, isValid, load, reset, search} from './fuzzy-input.fns';
 import {events, MAXLENGTH} from './fuzzy-input.consts';
 import {Attrs, State} from './fuzzy-input.types';
