@@ -41,8 +41,8 @@ type Attrs = {
 #### Aufruf
 
 ```ts
-import m from 'mithril';
 import FuzzyInput from '@phoenixreisen/fuzzy-input';
+import m from 'mithril';
 
 // Entweder JSX
 <FuzzyInput
@@ -54,7 +54,7 @@ import FuzzyInput from '@phoenixreisen/fuzzy-input';
     load={(choice: string) => Promise.resolve(console.log('get it'))}
 />
 
-//oder Hypescript bzw. JS
+//oder Hyperscript bzw. JS
 m(FuzzyInput, {
     disabled: false,
     label: 'Vorlagensuche',
