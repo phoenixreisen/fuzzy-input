@@ -164,25 +164,37 @@ test.spec('Fuzzy Input', () => {
         setTimeout(done, 20);
     });
 
-    test('should show error, when search or load failed', (done) => {
+    test('should show error, when search failed', (done) => {
         const FuzzyQuery = mq(m(new FuzzyView(), {
             query: () => Promise.reject('query error'),
             throttling: 5,
         }));
-        const FuzzyLoad = mq(m(new FuzzyView(), {
-            query: () => Promise.resolve(['S1', 'S2', 'S3']),
-            load: () => Promise.reject('load error'),
-            throttling: 5,
-        }));
-
+        test(FuzzyQuery.should.not.have('.fuzzy-error')).equals(true);
         FuzzyQuery.setValue('#fuzzy-input', 'test');
         setTimeout(() => {
             FuzzyQuery.redraw();
             test(FuzzyQuery.should.have(1, '.fuzzy-error')).equals(true);
         }, 10);
+        setTimeout(done, 50);
+    });
+
+    test('should show error, when load failed', (done) => {
+        const FuzzyLoad = mq(m(new FuzzyView(), {
+            query: () => Promise.resolve(['S1', 'S2', 'S3']),
+            load: () => Promise.reject('load error'),
+            throttling: 5,
+        }));
+        test(FuzzyLoad.should.not.have('.fuzzy-error')).equals(true);
+        FuzzyLoad.setValue('#fuzzy-input', 'test');
         setTimeout(() => {
             FuzzyLoad.redraw();
-            test(FuzzyQuery.should.have(1, '.fuzzy-error')).equals(true);
+            test(FuzzyLoad.should.have(1, '.fuzzy-result')).equals(true);
+            test(FuzzyLoad.should.have(1, '#fuzzy-item-0')).equals(true);
+            FuzzyLoad.click('#fuzzy-item-0');
+            setTimeout(() => {
+                FuzzyLoad.redraw();
+                test(FuzzyLoad.should.have(1, '.fuzzy-error')).equals(true);
+            }, 20)
         }, 20);
         setTimeout(done, 50);
     });
