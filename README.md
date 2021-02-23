@@ -62,7 +62,7 @@ m(FuzzyInput, {
     warnmsg: 'Ungültige Eingabe',
     errormsg: 'Es ist ein Fehler aufgetreten.',
     load: (name: string) => Promise.resolve(console.log('search it')),
-    query: (input: string) => FuncPromise.resolve(console.log('get it')),
+    query: (input: string) => Promise.resolve(console.log('get it')),
 });
 ```
 
