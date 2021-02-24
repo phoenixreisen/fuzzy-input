@@ -10,5 +10,5 @@ export const MINLENGTH = 3; // chars
 /** Refs */
 export const events: Events = {
     ESCAPE: null,
-    ARROW_DOWN: null,
+    ARROW: null,
 };

@@ -28,5 +28,5 @@ export type State = {
 
 export type Events = {
     ESCAPE: ((e: KeyboardEvent) => void) | null,
-    ARROW_DOWN: ((e: KeyboardEvent) => void) | null
+    ARROW: ((e: KeyboardEvent) => void) | null
 }

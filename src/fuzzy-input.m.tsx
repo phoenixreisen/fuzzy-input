@@ -19,16 +19,16 @@ export class FuzzyInput {
 
     oncreate({state, attrs}: m.Vnode<Attrs, State>) {
         events.ESCAPE = (e: KeyboardEvent) => reset(state, e);
-        events.ARROW_DOWN = (e: KeyboardEvent) => focus(state, attrs, e);
-        document.body.addEventListener('keydown', events.ARROW_DOWN, true);
+        events.ARROW = (e: KeyboardEvent) => focus(state, attrs, e);
+        document.body.addEventListener('keydown', events.ARROW, true);
         document.body.addEventListener('keyup', events.ESCAPE, true);
     }
 
     onremove() {
         if(events.ESCAPE)
             document.body.removeEventListener('keyup', events.ESCAPE, true);
-        if(events.ARROW_DOWN)
-            document.body.removeEventListener('keydown', events.ARROW_DOWN, true);
+        if(events.ARROW)
+            document.body.removeEventListener('keydown', events.ARROW, true);
     }
 
     view({state, attrs}: m.Vnode<Attrs, State>) {
