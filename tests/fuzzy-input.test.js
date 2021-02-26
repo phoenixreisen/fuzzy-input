@@ -27,6 +27,23 @@ test.spec('Fuzzy Input', () => {
         test(Fuzzy.should.not.have('.fuzzy-result')).equals(true);
     });
 
+    test('should render button correctly', () => {
+        const attrs = {
+            inText: undefined,
+            query: () => Promise.resolve(['S1', 'S2', 'S3']),
+            load: () => Promise.resolve({ type: 'success', value: 'String 2'})
+        };
+
+        const Fuzzy1 = mq(m(new FuzzyView(), attrs));
+        test(Fuzzy1.should.not.have('.fuzzy-with-button')).equals(true);
+        test(Fuzzy1.should.not.have('button')).equals(true);
+
+        attrs.inText = {prefix: '{', suffix: '}'}
+        const Fuzzy2 = mq(m(new FuzzyView(), attrs));
+        test(Fuzzy2.should.have(1, '.fuzzy-with-button')).equals(true);
+        test(Fuzzy2.should.have(1, 'button')).equals(true);
+    });
+
     test('should correctly validate input', () => {
         const { isValid } = Functions;
         const attrsMock = { valid: true, pattern: undefined };
@@ -108,11 +125,45 @@ test.spec('Fuzzy Input', () => {
         const reset = {
             focused: -1,
             error: null,
+            match: null,
             result: null,
             loading: false
         };
         Functions.reset(state, event);
         test(state).deepEquals(reset)
+    });
+
+    test('should correctly find placeholder matches', (done) => {
+        // test findMatch() directly
+        const prefix = '{{';
+        const inputs = [
+            {value: 'Mein Name ist {{Name', expected: '{{Name'},
+            {value: 'Die {{Schiff ist ein tolles Schiff', expected: '{{Schiff'},
+            {value: 'Die {{Schiff}} ist ein tolles Schiff', expected: null},
+            {value: '{{Blabla noch nachträglich an den Anfang tippen...', expected: '{{Blabla'},
+            {value: '{eine Klammer zu wenig...', expected: null},
+            {value: 'Fabian Marcus - Entwickler, Bonn', expected: null}
+        ];
+        for(const input of inputs) {
+            test(Functions.findMatch(input.value, prefix)).equals(input.expected);
+        }
+        // test findMatch() in search()
+        const input = 'Ich bin der {{Name . Hallo.';
+        const input2 = 'Ich bin der {{Name}}. Hallo.';
+        const state2 = { match: null };
+        const state = { match: null };
+        const attrs = {
+            throttling: 5,
+            inText: { prefix: '{{' },
+        };
+        const querySpy = (_state, _attrs, needle) => {
+            test(needle).equals('Name');
+        };
+        Functions.search(input, state, attrs, querySpy);
+        setTimeout(() => test(state.match).equals('{{Name'), 10);
+        Functions.search(input2, state2, attrs, querySpy);
+        setTimeout(() => test(state2.match).equals(null), 20);
+        setTimeout(done, 30);
     });
 
     test('should call search callback correctly', (done) => {
@@ -131,6 +182,42 @@ test.spec('Fuzzy Input', () => {
         setTimeout(done, 20);
     });
 
+    test('should call query correctly', (done) => {
+        const query = async () => ['S1', 'S11', 'S111', 'S2', 'S22', 'S3'];
+        const error = async () => Promise.reject({type: 'failure', msg: 'bla'});
+        const needle = 'S1';
+
+        // In Text Search
+        const state = { error: null, loading: false, result: null, error: null };
+        const attrs = { query: query, inText: true, logerror: false };
+        Functions.callQuery(state, attrs, needle);
+        setTimeout(() => {
+            test(state.loading).equals(false);
+            test(state.result.length).equals(3);
+        }, 10);
+
+        // Autocomplete
+        const state2 = { error: null, loading: false, result: null, error: null };
+        const attrs2 = { query: query, inText: false, logerror: false };
+        Functions.callQuery(state2, attrs2, needle);
+        setTimeout(() => {
+            test(state2.loading).equals(false);
+            test(state2.result.length).equals(6);
+        }, 20);
+
+        // Request Error
+        const state3 = { error: null, loading: false, result: null, error: null };
+        const attrs3 = { query: error, inText: true, logerror: false };
+        Functions.callQuery(state3, attrs3, needle);
+        setTimeout(() => {
+            test(state3.loading).equals(false);
+            test(state3.result).equals(null);
+            test(state3.error).deepEquals({type: 'failure', msg: 'bla'});
+        }, 30);
+
+        setTimeout(done, 50);
+    });
+
     test('should call load callback correctly', (done) => {
         const name = 'test-name';
         const state = { 'value': 'test-na' };
@@ -139,7 +226,22 @@ test.spec('Fuzzy Input', () => {
         setTimeout(() => {
             test(state.value).equals(name);
         }, 10)
-        setTimeout(done, 20);
+        setTimeout(done, 50);
+    });
+
+    test('should replace placeholder correctly', (done) => {
+        const load = (choice) => Promise.resolve(choice);
+        const before = 'Irgendwas';
+        const choice = 'Fabian Marcus - Entwickler, Bonnn';
+        const attrs = { inText: { prefix: '{{', suffix: '}}' }, load: load };
+        const state = { match: 'Irgendwas', value: before };
+        const state2 = { match: null, value: before };
+
+        Functions.load(choice, state, attrs);
+        setTimeout(() => test(state.value).equals(`${attrs.inText.prefix}${choice}${attrs.inText.suffix} `), 10);
+        Functions.load(choice, state2, attrs);
+        setTimeout(() => test(state2.value).equals(`${before}${attrs.inText.prefix}${choice}${attrs.inText.suffix}`), 20);
+        setTimeout(done, 50);
     });
 
     test('should toggle overlay, if result is given or not', (done) => {
@@ -161,7 +263,7 @@ test.spec('Fuzzy Input', () => {
             Fuzzy.redraw();
             test(Fuzzy.should.have(1, '.fuzzy-warning')).equals(true);
         }, 10);
-        setTimeout(done, 20);
+        setTimeout(done, 50);
     });
 
     test('should show error, when search failed', (done) => {
@@ -189,8 +291,8 @@ test.spec('Fuzzy Input', () => {
         setTimeout(() => {
             FuzzyLoad.redraw();
             test(FuzzyLoad.should.have(1, '.fuzzy-result')).equals(true);
-            test(FuzzyLoad.should.have(1, '#fuzzy-item-0')).equals(true);
-            FuzzyLoad.click('#fuzzy-item-0');
+            test(FuzzyLoad.should.have(1, '#fuzzy-input-item-0')).equals(true);
+            FuzzyLoad.click('#fuzzy-input-item-0');
             setTimeout(() => {
                 FuzzyLoad.redraw();
                 test(FuzzyLoad.should.have(1, '.fuzzy-error')).equals(true);
