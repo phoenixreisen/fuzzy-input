@@ -2,6 +2,12 @@
 
 **Ein Eingabefeld, das während des Tippens bereits Suchergebnisse anzeigt.** Die Komponente stellt nur die Implementierung mittels Mithril.js, die Styles kommen wie immer aus dem Design-System.
 
+Es gibt zwei Varianten:
+
+- Autocomplete für die komplette Eingabe. Entsprechend der Eingabe in's Textfeld werden Vorschläge abgerufen und angezeigt. Wird ein Vorschlag ausgewählt, wird die komplette Eingabe durch diesen Vorschlag ersetzt. Siehe Demo.
+
+- Autocomplete für Platzhalter. Tippt man innerhalb eines Textes ein definiertes Prefix, werden entsprechende Platzhalter abgerufen und angezeigt. Wird ein Platzhaler ausgewählt, wird der Prefix (sowie das direkt anschließend Getippte bis zum nächsten Leerzeichen) durch diesen Platzhalter (samt Prefix+Suffix) ersetzt. Der Rest des Textes bleibt bestehen. Siehe Demo.
+
 Die Komponente ist Teil des [Phoenix Reisen Design-Systems](https://design-system.phoenixreisen.net).
 
 ## Demo
@@ -22,19 +28,25 @@ npm install --save @phoenixreisen/fuzzy-input/
 
 ```ts
 type Attrs = {
-    label?: 'string',
+    id?: string,
+    label?: string,
     valid?: boolean,
     pattern?: RegExp,
     warnmsg?: string,
     errormsg?: string,
-    maxLength?: number,
-    minLength?: number,
-    logerror?: boolean,
     disabled?: boolean,
     readonly?: boolean,
+    logerror?: boolean,
+    maxLength?: number,
+    minLength?: number,
+    throttling?: number,
     placeholder?: string,
+    inText?: {
+        prefix: string,
+        suffix: string,
+    },
     load: (name: string) => Promise<any>,
-    query: (input: string) => Promise<Array<string>>
+    query: (input?: string) => Promise<Array<string>>
 }
 ```
 
@@ -44,8 +56,11 @@ type Attrs = {
 import FuzzyInput from '@phoenixreisen/fuzzy-input';
 import m from 'mithril';
 
+// Einfaches/Gesamtes Autocomplete (siehe Demo)
+
 // Entweder JSX
 <FuzzyInput
+    id={'example-1'}
     label={'Vorlagensuche'}
     pattern={new RegExp(/[a-Z]/)}
     warnmsg={'Ungueltige Eingabe'}
@@ -56,7 +71,7 @@ import m from 'mithril';
 
 //oder Hyperscript bzw. JS
 m(FuzzyInput, {
-    disabled: false,
+    id: 'example-1',
     label: 'Vorlagensuche',
     pattern: new RegExp(/[0-9]/),
     warnmsg: 'Ungültige Eingabe',
@@ -64,6 +79,23 @@ m(FuzzyInput, {
     load: (name: string) => Promise.resolve(console.log('search it')),
     query: (input: string) => Promise.resolve(console.log('get it')),
 });
+
+// Autocomplete für Platzhalter inkl. Button (siehe Demo)
+
+<FuzzyInput
+    inText={{
+        prefix: '{{',
+        suffix: '}}'
+    }}
+    minLength={1}
+    id={'example-2'}
+    label={'Irgendwas'}
+    pattern={new RegExp(/[{a-zA-Z]/)}
+    warnmsg={'Ungueltige Eingabe'}
+    errormsg={'Huch, ein Fehler ist aufgetreten.'}
+    query={(needle: string) => query2(needle)}
+    load={(choice: string) => load2(choice)}
+/>
 ```
 
 ## Test
