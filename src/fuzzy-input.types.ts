@@ -1,7 +1,8 @@
 //--- Types -----
 
 export type Attrs = {
-    label?: 'string',
+    id?: string,
+    label?: string,
     valid?: boolean,
     pattern?: RegExp,
     warnmsg?: string,
@@ -13,8 +14,12 @@ export type Attrs = {
     minLength?: number,
     throttling?: number,
     placeholder?: string,
+    inText?: {
+        prefix: string,
+        suffix: string,
+    },
     load: (name: string) => Promise<any>,
-    query: (input: string) => Promise<Array<string>>
+    query: (input?: string) => Promise<Array<string>>
 }
 
 export type State = {
@@ -23,6 +28,7 @@ export type State = {
     focused: number,
     loading: boolean,
     error: Error|null,
+    match: string|null,
     result: Array<string>|null
 }
 
