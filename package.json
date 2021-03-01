@@ -1,6 +1,6 @@
 {
   "name": "@phoenixreisen/fuzzy-input",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Ein Eingabefeld, das während des Tippens bereits Suchergebnisse anzeigt.",
   "homepage": "https://design-system.phoenixreisen.net",
   "main": "dist/fuzzy-input.m.js",
