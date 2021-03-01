@@ -62,12 +62,12 @@ export class FuzzyInput {
                     <label class={`textfield fuzzy-input ${attrs.disabled ? 'disabled':''}`}>
                         <input
                             type="text"
-                            name="fuzzy"
-                            autocomplete="fuzzy"
                             value={value}
                             id={`${attrs.id || ID}`}
+                            name={`${attrs.id || ID}`}
                             readonly={attrs.readonly || false}
                             placeholder={placeholder || '...'}
+                            autocomplete={`${attrs.id || ID}`}
                             maxlength={maxLength || MAXLENGTH}
                             oninput={(e) => search(e.target.value, state, attrs)}
                             onblur={attrs.onblur || undefined}
