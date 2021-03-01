@@ -46,6 +46,8 @@ type Attrs = {
         prefix: string,
         suffix: string,
     },
+    value: () => string,
+    oninput: (input: string) => void,
     load: (name: string) => Promise<any>,
     query: (input?: string) => Promise<Array<string>>
 }
@@ -66,6 +68,8 @@ import m from 'mithril';
     pattern={new RegExp(/[a-Z]/)}
     warnmsg={'Ungueltige Eingabe'}
     errormsg={'Huch, ein Fehler ist aufgetreten.'}
+    value={() => someState.value}
+    oninput={(value) => someState.value = value}
     query={(needle: string) => Promise.resolve(console.log('search it'))}
     load={(choice: string) => Promise.resolve(console.log('get it'))}
 />
@@ -77,6 +81,8 @@ m(FuzzyInput, {
     pattern: new RegExp(/[0-9]/),
     warnmsg: 'Ungültige Eingabe',
     errormsg: 'Es ist ein Fehler aufgetreten.',
+    value: () => someState.value}
+    oninput: (value) => someState.value = value}
     load: (name: string) => Promise.resolve(console.log('search it')),
     query: (input: string) => Promise.resolve(console.log('get it')),
 });
@@ -99,6 +105,8 @@ import m from 'mithril';
     label={'Irgendwas'}
     pattern={new RegExp(/[{a-zA-Z]/)}
     warnmsg={'Ungueltige Eingabe'}
+    value={() => someState.value}
+    oninput={(value) => someState.value = value}
     errormsg={'Huch, ein Fehler ist aufgetreten.'}
     query={(needle: string) => query2(needle)}
     load={(choice: string) => load2(choice)}
