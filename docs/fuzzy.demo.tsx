@@ -31,11 +31,18 @@ async function load2(name) {
 //--- Komponente -----
 
 export const Demo = {
-    view() {
+
+    oninit({state}) {
+        state.input1 = '';
+        state.input2 = '';
+    },
+
+    view({state}) {
         return (
             <div class="fuzzy-demo">
                 <p>
-                    <strong>Eingabefeld für Autocomplete.</strong>
+                    <strong>Eingabefeld für Autocomplete.</strong><br />
+                    Eingabe: <em>{state.input1 || '-'}</em>
                 </p>
                 <FuzzyInput
                     minLength={1}
@@ -44,15 +51,18 @@ export const Demo = {
                     label={'Name eines Landes (engl.)'}
                     warnmsg={'Ungueltige Eingabe'}
                     errormsg={'Huch, ein Fehler ist aufgetreten.'}
-                    query={(needle: string) => query1(needle)}
+                    value={() => state.input1}
                     load={(choice: string) => load1(choice)}
+                    query={(needle: string) => query1(needle)}
+                    oninput={(value: string) =>  Object.assign(state, {input1: value})}
                 />
 
                 <hr class="mv4" />
 
                 <p>
                     <strong>Freies Eingabefeld mit Platzhaltersuche.</strong><br />
-                    Entweder über Button auf rechter Seite oder durch Eingabe von <code>{'{{'}</code> die Suche aufrufen.
+                    Entweder über Button auf rechter Seite oder durch Eingabe von <code>{'{{'}</code> die Suche aufrufen.<br />
+                    Eingabe: <em>{state.input2 || '-'}</em>
                 </p>
                 <FuzzyInput
                     inText={{
@@ -66,8 +76,10 @@ export const Demo = {
                     pattern={new RegExp(/[{a-zA-Z]/)}
                     warnmsg={'Ungueltige Eingabe'}
                     errormsg={'Huch, ein Fehler ist aufgetreten.'}
-                    query={(needle: string) => query2(needle)}
+                    value={() => state.input2}
                     load={(choice: string) => load2(choice)}
+                    query={(needle: string) => query2(needle)}
+                    oninput={(value: string) =>  Object.assign(state, {input2: value})}
                 />
             </div>
         );

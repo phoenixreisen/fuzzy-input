@@ -4,6 +4,13 @@ import m from 'mithril';
 
 //--- Funktionen -----
 
+export function setValue(input: string, state:State, attrs: Attrs): void {
+    attrs.oninput ? attrs.oninput(input) : Object.assign(state, {value: input});
+}
+export function getValue(state: State, attrs: Attrs): string {
+    return attrs.value ? attrs.value() : state.value;
+}
+
 export function isValid(input: string, attrs: Attrs): boolean {
     if((typeof attrs.valid !== 'undefined') && !attrs.valid) {
         return false;
@@ -17,7 +24,7 @@ export function isValid(input: string, attrs: Attrs): boolean {
 export function isReady(input: string, state: State, attrs: Attrs): boolean {
     const minLength = (typeof attrs.minLength !== 'undefined') ? attrs.minLength : MINLENGTH;
     return input.length >= minLength
-        && input === state.value
+        && input === getValue(state, attrs)
         && !state.loading;
 }
 
@@ -78,7 +85,7 @@ export function search(input: string, state: State, attrs: Attrs, query = callQu
             reset(state);
         }
     }, (attrs.throttling || THROTTLING));
-    state.value = input;
+    setValue(input, state, attrs);
 }
 
 export function load(choice: string, state: State, attrs: Attrs): Promise<unknown> {
@@ -89,8 +96,9 @@ export function load(choice: string, state: State, attrs: Attrs): Promise<unknow
                 // Ein Platzhalter wurde angefangen, dann ausgewählt.
                 // Das Getippte wird durch Auswahl ersetzt bzw. vervollständigt.
                 if(state.match) {
+                    const value = getValue(state, attrs);
                     const pattern = new RegExp(`${state.match}(\\s|$)`);
-                    Object.assign(state, {value: state.value.replace(pattern, `${prefix}${choice}${suffix} `)});
+                    setValue(value.replace(pattern, `${prefix}${choice}${suffix} `), state, attrs);
                 }
                 // Es wurde einfach ein Platzhalter aus der Liste ausgewählt (z.B. über Button)
                 // und wird an aktueller Cursor-Position eingefügt.
@@ -100,15 +108,15 @@ export function load(choice: string, state: State, attrs: Attrs): Promise<unknow
                     if(typeof cursorPosition !== 'undefined') {
                         const start = state.value.substring(0, cursorPosition);
                         const end = state.value.substring(cursorPosition);
-                        Object.assign(state, {value: `${start}${prefix}${choice}${suffix}${end}`});
+                        setValue(`${start}${prefix}${choice}${suffix}${end}`, state, attrs);
                     } else {
-                        Object.assign(state, {value: `${state.value}${prefix}${choice}${suffix}`});
+                        setValue(`${state.value}${prefix}${choice}${suffix}`, state, attrs);
                     }
                 }
                 (document.querySelector(`#${attrs.id || ID}`) as HTMLElement)?.focus();
                 m.redraw();
             } else {
-                state.value = choice;
+                setValue(choice, state, attrs);
             }
             reset(state);
         })

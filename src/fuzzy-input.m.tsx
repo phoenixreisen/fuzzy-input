@@ -1,6 +1,6 @@
 /** @jsx m */
 
-import {focus, isValid, load, reset, search, callQuery} from './fuzzy-input.fns';
+import {focus, isValid, load, reset, search, callQuery, getValue} from './fuzzy-input.fns';
 import {events, ID, MAXLENGTH} from './fuzzy-input.consts';
 import {Attrs, State} from './fuzzy-input.types';
 import m from 'mithril';
@@ -32,9 +32,10 @@ export class FuzzyInput {
     }
 
     view({state, attrs}: m.Vnode<Attrs, State>) {
-        const {loading, value, result, error} = state;
+        const {loading, result, error} = state;
         const {label, maxLength, placeholder, inText} = attrs;
 
+        const value = getValue(state, attrs);
         const showErrormsg = !!(error && (attrs.errormsg !== ''));
         const showResultlist = !!((value || inText) && (result?.map) && !loading);
         const showWarnmsg = !!((attrs.warnmsg !== '') && (value.length > 0) && !isValid(value, attrs));
@@ -62,8 +63,8 @@ export class FuzzyInput {
                         <input
                             type="text"
                             name="fuzzy"
-                            value={value}
                             autocomplete="fuzzy"
+                            value={value}
                             id={`${attrs.id || ID}`}
                             readonly={attrs.readonly || false}
                             placeholder={placeholder || '...'}

@@ -46,6 +46,29 @@ test.spec('Fuzzy Input', () => {
         test(Fuzzy2.should.have(1, 'button')).equals(true);
     });
 
+    test('should correctly set input value', () => {
+        const state = { value: '' };
+        const outerState = { value: '' };
+        const attrs = { oninput: undefined };
+        Functions.setValue('test', state, attrs)
+        // without external set function
+        test(state.value).equals('test');
+        test(outerState.value).equals('');
+        // with external set function
+        attrs.oninput = (value) => outerState.value = value;
+        Functions.setValue('test2', state, attrs);
+        test(state.value).equals('test');
+        test(outerState.value).equals('test2');
+    });
+
+    test('should correctly return input value', () => {
+        const state = { value: 'state-value' };
+        const attrs = { value: undefined };
+        test(Functions.getValue(state, attrs)).equals('state-value');
+        attrs.value = () => 'attrs-value';
+        test(Functions.getValue(state, attrs)).equals('attrs-value');
+    });
+
     test('should correctly validate input', () => {
         const { isValid } = Functions;
         const attrsMock = { valid: true, pattern: undefined };
