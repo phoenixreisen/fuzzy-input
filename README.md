@@ -4,7 +4,7 @@
 
 Es gibt zwei Varianten:
 
-- **Autocomplete für die komplette Eingabe.** Entsprechend der Eingabe ins Textfeld werden Vorschläge abgerufen und angezeigt. Wird ein Vorschlag ausgewählt, wird die komplette Eingabe durch diesen Vorschlag ersetzt. Siehe Demo.
+- **Autocomplete für komplette Eingabe.** Entsprechend der Eingabe ins Textfeld werden Vorschläge abgerufen und angezeigt. Wird ein Vorschlag ausgewählt, wird die komplette Eingabe durch diesen Vorschlag ersetzt. Siehe Demo.
 
 - **Autocomplete für Platzhalter.** Tippt man innerhalb eines Textes ein definiertes Prefix, werden entsprechende Platzhalter abgerufen und angezeigt. Wird ein Platzhaler ausgewählt, wird der Prefix (sowie das direkt anschließend Getippte bis zum nächsten Leerzeichen) durch diesen Platzhalter (samt Prefix+Suffix) ersetzt. Der Rest des Textes bleibt bestehen. Siehe Demo.
 
