@@ -40,6 +40,7 @@ type Attrs = {
     maxLength?: number,
     minLength?: number,
     throttling?: number,
+    withButton?: boolean,
     placeholder?: string,
     inText?: {
         prefix: string,
