@@ -40,7 +40,7 @@ test.spec('Fuzzy Input', () => {
         test(Fuzzy1.should.not.have('button')).equals(true);
 
         attrs.withButton = true;
-        attrs.inText = {prefix: '{', suffix: '}'}
+        attrs.inText = {prefix: '{', suffix: '}'};
         const Fuzzy2 = mq(m(new FuzzyView(), attrs));
         test(Fuzzy2.should.have(1, '.fuzzy-with-button')).equals(true);
         test(Fuzzy2.should.have(1, 'button')).equals(true);
@@ -212,7 +212,7 @@ test.spec('Fuzzy Input', () => {
         const error = async () => Promise.reject({type: 'failure', msg: 'bla'});
         const needle = 'S1';
 
-        // In Text Search
+        // InText Search
         const state = { error: null, loading: false, result: null, error: null };
         const attrs = { query: query, inText: true, logerror: false };
         Functions.callQuery(state, attrs, needle);
@@ -324,5 +324,22 @@ test.spec('Fuzzy Input', () => {
             }, 20)
         }, 20);
         setTimeout(done, 50);
+    });
+
+    test('should blur if onblur is set', (done) => {
+        let value = 'bla';
+        const Field = mq(m(new FuzzyView(), {
+            query: () => Promise.resolve(['S1', 'S2', 'S3']),
+            load: () => Promise.reject('load error'),
+            onblur:  () => value = 'blu',
+            throttling: 5,
+        }));
+        Field.trigger('#fuzzy-input', 'onblur');
+        Field.setValue('#fuzzy-input', 'test');
+        setTimeout(() => {
+            Field.redraw();
+            test(value).equals('blu');
+        }, 10);
+        setTimeout(done, 20);
     });
 });

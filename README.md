@@ -47,9 +47,10 @@ type Attrs = {
         suffix: string,
     },
     value: () => string,
-    oninput: (input: string) => void,
     load: (name: string) => Promise<any>,
     query: (input?: string) => Promise<Array<string>>
+    oninput: (input: string) => void,
+    onblur?: () => void,
 }
 ```
 

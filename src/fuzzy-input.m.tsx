@@ -70,6 +70,7 @@ export class FuzzyInput {
                             placeholder={placeholder || '...'}
                             maxlength={maxLength || MAXLENGTH}
                             oninput={(e) => search(e.target.value, state, attrs)}
+                            onblur={attrs.onblur || undefined}
                         />
                         <span class="textfield__label">
                             {label || 'Suche'}

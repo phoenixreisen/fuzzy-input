@@ -21,8 +21,9 @@ export type Attrs = {
     },
     value: () => string,
     oninput: (input: string) => void,
+    onblur?: (param?: unknown) => void,
     load: (name: string) => Promise<any>,
-    query: (input?: string) => Promise<Array<string>>
+    query: (input?: string) => Promise<Array<string>>,
 }
 
 export type State = {
