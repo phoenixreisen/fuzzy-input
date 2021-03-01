@@ -89,7 +89,8 @@ export function load(choice: string, state: State, attrs: Attrs): Promise<unknow
                 // Ein Platzhalter wurde angefangen, dann ausgewählt.
                 // Das Getippte wird durch Auswahl ersetzt bzw. vervollständigt.
                 if(state.match) {
-                    Object.assign(state, {value: state.value.replace(state.match, `${prefix}${choice}${suffix} `)});
+                    const pattern = new RegExp(`${state.match}(\\s|$)`);
+                    Object.assign(state, {value: state.value.replace(pattern, `${prefix}${choice}${suffix} `)});
                 }
                 // Es wurde einfach ein Platzhalter aus der Liste ausgewählt (z.B. über Button)
                 // und wird an aktueller Cursor-Position eingefügt.
