@@ -61,6 +61,7 @@ export const Demo = {
                     }}
                     minLength={1}
                     id="example-2"
+                    withButton={true}
                     label={'Irgendwas'}
                     pattern={new RegExp(/[{a-zA-Z]/)}
                     warnmsg={'Ungueltige Eingabe'}

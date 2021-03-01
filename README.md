@@ -53,10 +53,10 @@ type Attrs = {
 #### Aufruf
 
 ```ts
+/** Autocomplete gesamter Eingabe (siehe Demo) */
+
 import FuzzyInput from '@phoenixreisen/fuzzy-input';
 import m from 'mithril';
-
-// Einfaches/Gesamtes Autocomplete (siehe Demo)
 
 // Entweder JSX
 <FuzzyInput
@@ -79,8 +79,13 @@ m(FuzzyInput, {
     load: (name: string) => Promise.resolve(console.log('search it')),
     query: (input: string) => Promise.resolve(console.log('get it')),
 });
+```
 
-// Autocomplete für Platzhalter inkl. Button (siehe Demo)
+```ts
+/** Autocomplete für Platzhalter mit Button (siehe Demo) */
+
+import FuzzyInput from '@phoenixreisen/fuzzy-input';
+import m from 'mithril';
 
 <FuzzyInput
     inText={{
@@ -89,6 +94,7 @@ m(FuzzyInput, {
     }}
     minLength={1}
     id={'example-2'}
+    withButton={true}
     label={'Irgendwas'}
     pattern={new RegExp(/[{a-zA-Z]/)}
     warnmsg={'Ungueltige Eingabe'}

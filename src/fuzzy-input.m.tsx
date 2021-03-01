@@ -57,7 +57,7 @@ export class FuzzyInput {
                         </div>
                     </div>
                 }
-                <div class={attrs.inText ? 'fuzzy-with-button':''}>
+                <div class={attrs.withButton ? 'fuzzy-with-button':''}>
                     <label class={`textfield fuzzy-input ${attrs.disabled ? 'disabled':''}`}>
                         <input
                             type="text"
@@ -74,7 +74,7 @@ export class FuzzyInput {
                             {label || 'Suche'}
                         </span>
                     </label>
-                    {attrs.inText &&
+                    {attrs.withButton &&
                         <button type="button" class="btn btn--secondary"
                             onclick={() => callQuery(state, attrs)}>
                             <i class="fas fa-list"></i>

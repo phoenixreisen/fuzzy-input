@@ -30,6 +30,7 @@ test.spec('Fuzzy Input', () => {
     test('should render button correctly', () => {
         const attrs = {
             inText: undefined,
+            withButton: false,
             query: () => Promise.resolve(['S1', 'S2', 'S3']),
             load: () => Promise.resolve({ type: 'success', value: 'String 2'})
         };
@@ -38,6 +39,7 @@ test.spec('Fuzzy Input', () => {
         test(Fuzzy1.should.not.have('.fuzzy-with-button')).equals(true);
         test(Fuzzy1.should.not.have('button')).equals(true);
 
+        attrs.withButton = true;
         attrs.inText = {prefix: '{', suffix: '}'}
         const Fuzzy2 = mq(m(new FuzzyView(), attrs));
         test(Fuzzy2.should.have(1, '.fuzzy-with-button')).equals(true);
