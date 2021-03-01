@@ -106,11 +106,11 @@ export function load(choice: string, state: State, attrs: Attrs): Promise<unknow
                     const $input = document.querySelector(`#${attrs.id || ID}`) as HTMLInputElement;
                     const cursorPosition = $input?.selectionStart ?? undefined;
                     if(typeof cursorPosition !== 'undefined') {
-                        const start = state.value.substring(0, cursorPosition);
-                        const end = state.value.substring(cursorPosition);
+                        const start = getValue(state, attrs).substring(0, cursorPosition);
+                        const end = getValue(state, attrs).substring(cursorPosition);
                         setValue(`${start}${prefix}${choice}${suffix}${end}`, state, attrs);
                     } else {
-                        setValue(`${state.value}${prefix}${choice}${suffix}`, state, attrs);
+                        setValue(`${getValue(state, attrs)}${prefix}${choice}${suffix}`, state, attrs);
                     }
                 }
                 (document.querySelector(`#${attrs.id || ID}`) as HTMLElement)?.focus();
