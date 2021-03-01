@@ -74,7 +74,7 @@ export function search(input: string, state: State, attrs: Attrs, query = callQu
             const match = findMatch(input, prefix);
             if(match) {
                 state.match = match;
-                const needle = match.replace('{{', '').trim();
+                const needle = match.replace(prefix, '').trim();
                 query(state, attrs, needle);
             } else {
                 reset(state);
