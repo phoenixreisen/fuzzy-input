@@ -22,7 +22,7 @@ export type Attrs = {
     value: () => string,
     oninput: (input: string) => void,
     onblur?: (param?: unknown) => void,
-    load: (name: string) => Promise<any>,
+    load: (name: string) => Promise<unknown>,
     query: (input?: string) => Promise<Array<string>>,
 }
 

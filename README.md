@@ -47,7 +47,7 @@ type Attrs = {
         suffix: string,
     },
     value: () => string,
-    load: (name: string) => Promise<any>,
+    load: (name: string) => Promise<unknown>,
     query: (input?: string) => Promise<Array<string>>
     oninput: (input: string) => void,
     onblur?: () => void,
@@ -69,10 +69,10 @@ import m from 'mithril';
     pattern={new RegExp(/[a-Z]/)}
     warnmsg={'Ungueltige Eingabe'}
     errormsg={'Huch, ein Fehler ist aufgetreten.'}
-    value={() => someState.value}
     oninput={(value) => someState.value = value}
     query={(needle: string) => Promise.resolve(console.log('search it'))}
     load={(choice: string) => Promise.resolve(console.log('get it'))}
+    value={() => someState.value}
 />
 
 //oder Hyperscript bzw. JS
@@ -82,10 +82,10 @@ m(FuzzyInput, {
     pattern: new RegExp(/[0-9]/),
     warnmsg: 'Ungültige Eingabe',
     errormsg: 'Es ist ein Fehler aufgetreten.',
-    value: () => someState.value}
     oninput: (value) => someState.value = value}
     load: (name: string) => Promise.resolve(console.log('search it')),
     query: (input: string) => Promise.resolve(console.log('get it')),
+    value: () => someState.value}
 });
 ```
 
