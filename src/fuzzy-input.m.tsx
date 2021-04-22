@@ -93,6 +93,12 @@ export class FuzzyInput {
                                     {name}
                                 </a>,
                             )}
+                            {(!result || !result.length) ?
+                                <div class="ma2">
+                                    <em>Die Suche ergab leider keine Treffer...</em>
+                                </div>
+                                : ''
+                            }
                         </div>
                     </div>,
                     <div class="fuzzy-bg-layer" onclick={() => reset(state)}></div>,
