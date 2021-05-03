@@ -67,7 +67,6 @@ export class FuzzyInput {
                             name={`${attrs.id || ID}`}
                             readonly={attrs.readonly || false}
                             placeholder={placeholder || '...'}
-                            autocomplete={`${attrs.id || ID}`}
                             maxlength={maxLength || MAXLENGTH}
                             oninput={(e) => search(e.target.value, state, attrs)}
                             onblur={attrs.onblur || undefined}
